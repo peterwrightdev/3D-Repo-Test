@@ -61,7 +61,17 @@
     <Compile Include="DataStructures\Issue.cs" />
     <Compile Include="DataStructures\Risk.cs" />
     <Compile Include="Utility\DataManager.cs" />
+    <Compile Include="Utility\DateTimeConverter.cs" />
     <Compile Include="Utility\HTTPClient.cs" />
+    <Compile Include="Utility\Priorities\IPriority.cs" />
+    <Compile Include="Utility\Priorities\Low.cs" />
+    <Compile Include="Utility\Priorities\Medium.cs" />
+    <Compile Include="Utility\Priorities\High.cs" />
+    <Compile Include="Utility\Priorities\Unknown.cs" />
+    <Compile Include="Utility\PriorityIndicatorConverter.cs" />
+    <Compile Include="Utility\StatusColourConverter.cs" />
+    <Compile Include="Utility\StatusToIconConverter.cs" />
+    <Compile Include="Utility\ThumbnailToImageConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

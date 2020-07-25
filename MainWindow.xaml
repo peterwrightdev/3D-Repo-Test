@@ -4,11 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ListExample"
+        xmlns:localUtility="clr-namespace:ListExample.Utility"
         mc:Ignorable="d"
         Title="Offite Test" Height="800" Width="400">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
     </Window.Background>
+    <Window.Resources>
+        <localUtility:DateTimeConverter x:Key="DateTimeConverter"/>
+        <localUtility:PriorityIndicatorConverter x:Key="PriorityIndicatorConverter"/>
+        <localUtility:StatusToIconConverter x:Key="StatusToIconConverter"/>
+        <localUtility:StatusColourConverter x:Key="StatusColourConverter"/>
+        <localUtility:ThumbnailToImageConverter x:Key="ThumbnailToImageConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -17,57 +25,97 @@
 
         <ListView  x:Name="ticketsList" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
         HorizontalContentAlignment="Stretch">
-            <ListViewItem>
-                <Border BorderBrush="#FFCDCFD6" BorderThickness="0, 0, 0, 1">
-                    <Grid HorizontalAlignment="Stretch" Height="100"  VerticalAlignment="Stretch" Width="Auto" Margin="0,0,0,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border BorderBrush="#FFCDCFD6" BorderThickness="1" Margin="5,5,0,5">
-                            <Label x:Name="priorityLabel" Content=""  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="#FFE21515" />
-                        </Border>
-                        <Border Grid.Column="1" BorderBrush="#FFCDCFD6" BorderThickness="1"  Margin="5,5,5,5">
-                            <Image Grid.Column="0" x:Name="image" Source="{StaticResource DefaultImage}" Margin="0, 0, 0, 0" Width="Auto" Stretch="Fill" />
-                        </Border>
-                        <Grid Grid.Column="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>
-
-                            <Label x:Name="ticketNum" Content="000" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" />
-                            <Label x:Name="ticketTitle" Grid.Column="1" VerticalContentAlignment="Top">
-                                <TextBlock Text="Untitled Issue" TextTrimming="CharacterEllipsis" />
-                            </Label>
-                            <Grid  Grid.Row="1" Grid.Column="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ListViewItem>
+                        <Border BorderBrush="#FFCDCFD6" BorderThickness="0, 0, 0, 1">
+                            <Grid HorizontalAlignment="Stretch" Height="100"  VerticalAlignment="Stretch" Width="Auto" Margin="0,0,0,5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Label Content="&#xf111;" Margin="2,1,2,5" FontFamily="{StaticResource FontAwesomeRegular}" HorizontalContentAlignment = "Left" Foreground="Red" VerticalContentAlignment="Center" />
-                                    <Label x:Name="owner" Content="IssueCreator"  HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="10" Padding="0,1,5,5" />
-                                </StackPanel>
 
-                                <Label x:Name="date" Content="10 Jul 2019" Margin="0" Grid.Column="1"  FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Padding="5,0,10,5" />
+                                <Border BorderBrush="#FFCDCFD6" BorderThickness="1" Margin="5,5,0,5" Background="#4e7496">
+                                    <!-- Priority indicator should change colour depending on the priority value in the issue:-->
+                                    <Label x:Name="priorityLabel" Content=""  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                        <Label.Background>
+                                            <MultiBinding Converter="{StaticResource PriorityIndicatorConverter}">
+                                                <Binding Path="priority"></Binding>
+                                            </MultiBinding>
+                                        </Label.Background>
+                                    </Label>
+                                </Border>
+                                <Border Grid.Column="1" BorderBrush="#FFCDCFD6" BorderThickness="1"  Margin="5,5,5,5">
+                                    <!-- Thumbnail is a URI to the image. Use GetBinaryStream within DataManager to fetch the binary data as a stream. If the issue has no thumbnail, it should show DefaultImage defined in the resources. -->
+                                    <Image Grid.Column="0" x:Name="image" Margin="0, 0, 0, 0" Width="Auto" Stretch="Fill">
+                                        <Image.Source>
+                                            <MultiBinding Converter="{StaticResource ThumbnailToImageConverter}">
+                                                <Binding Path="thumbnail"></Binding>
+                                            </MultiBinding>
+                                        </Image.Source>
+                                    </Image>
+                                </Border>
+                                <Grid Grid.Column="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label x:Name="ticketNum" Content="{Binding number}" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" />
+                                    <Label x:Name="ticketTitle" Grid.Column="1" VerticalContentAlignment="Top">
+                                        <TextBlock Text="{Binding name}" TextTrimming="CharacterEllipsis" />
+                                    </Label>
+                                    <Grid  Grid.Row="1" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <!-- Status Icon should display icon based on the status value. The icons are be available as Unicode values using the font type Font Awesome (included within the project): -->
+                                            <Label Margin="2,1,2,5" FontFamily="{StaticResource FontAwesomeRegular}" HorizontalContentAlignment = "Left" VerticalContentAlignment="Center" >
+                                                <Label.Content>
+                                                    <!-- need a converter that takes status as returns string as icon-->
+                                                    <MultiBinding Converter="{StaticResource StatusToIconConverter}">
+                                                        <Binding Path="status"></Binding>
+                                                    </MultiBinding>
+                                                </Label.Content>
+                                                <Label.Foreground>
+                                                    <!-- need a converter that takes status and priority to determine what color to use-->
+                                                    <MultiBinding Converter="{StaticResource StatusColourConverter}">
+                                                        <Binding Path="status"></Binding>
+                                                        <Binding Path="priority"></Binding>
+                                                    </MultiBinding>
+                                                </Label.Foreground>
+                                            </Label>
+                                            <Label x:Name="owner" Content="{Binding owner}"  HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="10" Padding="0,1,5,5" />
+                                        </StackPanel>
+
+                                        <!-- may have to do some manipulation here-->
+                                        <Label x:Name="date" Margin="0" Grid.Column="1"  FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="5,0,10,5">
+                                            <Label.Content>
+                                                <MultiBinding Converter="{StaticResource DateTimeConverter}">
+                                                    <Binding Path="created"></Binding>
+                                                </MultiBinding>
+                                            </Label.Content>
+                                        </Label>
+                                    </Grid>
+                                    <Label x:Name="desc" Margin="0" Foreground="#FFB9B3B3"  VerticalContentAlignment="Top" Grid.Column="1" FontSize="10" Grid.Row="2">
+                                        <Label.Content>
+                                            <AccessText TextWrapping="Wrap" Text="{Binding desc}" />
+                                        </Label.Content>
+                                    </Label>
+                                </Grid>
                             </Grid>
-                            <Label x:Name="desc" Margin="0" Foreground="#FFB9B3B3"  VerticalContentAlignment="Top" Grid.Column="1" FontSize="10" Grid.Row="2">
-                                <Label.Content>
-                                    <AccessText TextWrapping="Wrap" Text="Description of the issue" />
-                                </Label.Content>
-                            </Label>
-                        </Grid>
-                    </Grid>
-                </Border>
-            </ListViewItem>
+                        </Border>
+                    </ListViewItem>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </Window>
