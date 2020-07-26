@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Media.Imaging;
 
 namespace ListExample.DataStructures
 {
@@ -34,6 +35,7 @@ namespace ListExample.DataStructures
         public string priority { get; set; } = "";
         public string desc { get; set; } = "";
         public string thumbnail { get; set; }
+        public BitmapImage thumbnailImage { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

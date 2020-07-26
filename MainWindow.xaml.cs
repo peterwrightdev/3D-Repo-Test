@@ -7,6 +7,7 @@ namespace ListExample
     using System.Collections.ObjectModel;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Media.Imaging;
     using ListExample.DataStructures;
     using ListExample.Utility;
 
@@ -26,9 +27,25 @@ namespace ListExample
             dataManager.GetIssueList((newIssues, exception) => {
                 foreach (Issue issue in newIssues)
                 {
-                    App.Current.Dispatcher.BeginInvoke((Action)delegate () { this.IssueList.Add(issue); });
+                    App.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        if (!string.IsNullOrEmpty(issue.thumbnail))
+                        {
+                            dataManager.GetBinaryStream(issue.thumbnail, (stream, exception1) =>
+                            {
+                                var bitmap = new BitmapImage();
+                                bitmap.BeginInit();
+                                bitmap.StreamSource = stream;
+                                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                                bitmap.EndInit();
+                                issue.thumbnailImage = bitmap;
+                            });
+                        }
+                        this.IssueList.Add(issue);
+                    });
                 }
             });
+
         }
 
         public ObservableCollection<Issue> IssueList = new ObservableCollection<Issue>();

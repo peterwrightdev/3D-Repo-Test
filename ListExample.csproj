@@ -67,7 +67,6 @@
     <Compile Include="Utility\Priorities\Low.cs" />
     <Compile Include="Utility\Priorities\Medium.cs" />
     <Compile Include="Utility\Priorities\High.cs" />
-    <Compile Include="Utility\Priorities\Unknown.cs" />
     <Compile Include="Utility\PriorityIndicatorConverter.cs" />
     <Compile Include="Utility\StatusColourConverter.cs" />
     <Compile Include="Utility\StatusToIconConverter.cs" />

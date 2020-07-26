@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -16,15 +17,16 @@ namespace ListExample.Utility
         {
             // Converts from priority to specific color.
             // Find which "Priority" matches our string name and return it's colour.
-            try
-            {
-                var priorityType = Type.GetType("ListExample.Utility.Priorities." + values[0]);
+            var priorityType = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && t.FullName.ToLower() == "listexample.utility.priorities." + ((string)values[0]).ToLower()).FirstOrDefault();
 
+            if (priorityType != null)
+            {
                 return new SolidColorBrush(((IPriority)Activator.CreateInstance(priorityType)).Colour);
             }
-            catch
+            else
             {
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#000000"));
+                // unknown priority. Use default colour.
+                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4e7496"));
             }
         }
 

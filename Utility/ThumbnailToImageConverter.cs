@@ -12,25 +12,29 @@ namespace ListExample.Utility
 {
     class ThumbnailToImageConverter : IMultiValueConverter
     {
+        AutoResetEvent waitHandle = new AutoResetEvent(false);
+
+        private BitmapImage _image = null;
+
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             // convert from URI to an image
             DataManager datamanager = new DataManager();
-            BitmapImage image = null;
 
             // This needs to wait
-            datamanager.GetBinaryStream((string)values[0], (stream, exception) => 
+            datamanager.GetBinaryStream((string)values[0], (stream, exception) =>
             {
                 var bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.StreamSource = stream;
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
                 bitmap.EndInit();
-
-                App.Current.Dispatcher.BeginInvoke((Action)delegate () { image = bitmap; });
+                this._image = bitmap;
+                this.waitHandle.Set();
             });
+            this.waitHandle.WaitOne();
 
-            return image;
+            return this._image;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

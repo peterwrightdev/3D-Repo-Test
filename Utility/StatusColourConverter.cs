@@ -16,9 +16,9 @@ namespace ListExample.Utility
             // converts from given status to an icon in unicode - better mapping could be used here
             try
             {
-                switch ((string)values[0])
+                switch (((string)values[0]).ToLower())
                 {
-                    case "Closed":
+                    case "closed":
                         return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7ca687"));
                     default:
                         PriorityIndicatorConverter priorityConverter = new PriorityIndicatorConverter();

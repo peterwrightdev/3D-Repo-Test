@@ -122,7 +122,14 @@ namespace ListExample.Utility
         {
             Stream responseStream = hwr.GetResponseStream();
             StreamReader responseReader = new StreamReader(responseStream);
-            return JsonMapper.ToObject<RepoError>(responseReader.ReadToEnd()).message;
+            try
+            {
+                return JsonMapper.ToObject<RepoError>(responseReader.ReadToEnd()).message;
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         private void _HttpGetStream(Object data)

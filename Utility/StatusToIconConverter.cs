@@ -15,16 +15,16 @@ namespace ListExample.Utility
             // converts from given status to an icon in unicode - better mapping could be used here
             try
             {
-                switch ((string)values[0])
+                switch (((string)values[0]).ToLower())
                 {
-                    case "Unknown":
-                    case "Open":
+                    case "unknown":
+                    case "open":
                         return "\uf111";
-                    case "In Progress":
+                    case "in progress":
                         return "\uf056";
-                    case "For Approval":
+                    case "for approval":
                         return "\uf192";
-                    case "Closed":
+                    case "closed":
                         return "\uf058";
                     default:
                         return string.Empty;

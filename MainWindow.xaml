@@ -50,9 +50,11 @@
                                     <!-- Thumbnail is a URI to the image. Use GetBinaryStream within DataManager to fetch the binary data as a stream. If the issue has no thumbnail, it should show DefaultImage defined in the resources. -->
                                     <Image Grid.Column="0" x:Name="image" Margin="0, 0, 0, 0" Width="Auto" Stretch="Fill">
                                         <Image.Source>
-                                            <MultiBinding Converter="{StaticResource ThumbnailToImageConverter}">
-                                                <Binding Path="thumbnail"></Binding>
-                                            </MultiBinding>
+                                            <Binding Path="bitmapImage">
+                                                <Binding.TargetNullValue>
+                                                    <ImageSource>Resources/noImage.jpg</ImageSource>
+                                                </Binding.TargetNullValue>
+                                            </Binding>
                                         </Image.Source>
                                     </Image>
                                 </Border>
