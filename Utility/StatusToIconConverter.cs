@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace ListExample.Utility
 {
@@ -15,20 +16,39 @@ namespace ListExample.Utility
             // converts from given status to an icon in unicode - better mapping could be used here
             try
             {
-                switch (((string)values[0]).ToLower())
+                if (values[0].GetType() == typeof(string))
                 {
-                    case "unknown":
-                    case "open":
-                        return "\uf111";
-                    case "in progress":
-                        return "\uf056";
-                    case "for approval":
-                        return "\uf192";
-                    case "closed":
-                        return "\uf058";
-                    default:
-                        return string.Empty;
+                    switch (((string)values[0]).ToLower())
+                    {
+                        case "in progress":
+                            return "\uf056";
+                        case "for approval":
+                            return "\uf192";
+                        case "closed":
+                            return "\uf058";
+                        case "open":
+                        default:
+                            return "\uf111";
+                    }
                 }
+                else if (values[1].GetType() == typeof(string))
+                {
+                    switch (((string)values[1]).ToLower())
+                    {
+                        case "proposed":
+                            return "\uf056";
+                        case "agreed_partial":
+                            return "\uf192";
+                        case "agreed_fully":
+                            return "\uf058";
+                        case "rejected":
+                            return "\uf057";
+                        case "unmitigated":
+                        default:
+                            return "\uf111";
+                    }
+                }
+                else return string.Empty;
             }
             catch
             {

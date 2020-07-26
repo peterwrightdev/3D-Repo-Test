@@ -58,20 +58,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataStructures\IModel.cs" />
     <Compile Include="DataStructures\Issue.cs" />
     <Compile Include="DataStructures\Risk.cs" />
+    <Compile Include="Utility\ColorMapping.cs" />
     <Compile Include="Utility\DataManager.cs" />
     <Compile Include="Utility\DateTimeConverter.cs" />
     <Compile Include="Utility\HTTPClient.cs" />
-    <Compile Include="Utility\Priorities\IPriority.cs" />
-    <Compile Include="Utility\Priorities\Low.cs" />
-    <Compile Include="Utility\Priorities\Medium.cs" />
-    <Compile Include="Utility\Priorities\High.cs" />
     <Compile Include="Utility\PriorityIndicatorConverter.cs" />
     <Compile Include="Utility\StatusColourConverter.cs" />
     <Compile Include="Utility\StatusToIconConverter.cs" />
-    <Compile Include="Utility\ThumbnailToImageConverter.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="ViewModel\IBaseViewModel.cs" />
+    <Compile Include="ViewModel\IssueViewModel.cs" />
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -79,7 +78,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="ViewModel\IViewModel.cs" />
+    <Compile Include="ViewModel\RiskViewModel.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

@@ -13,8 +13,6 @@ namespace ListExample.DataStructures
 
         public List<Issue> issues = null;
 
-        // Create the OnPropertyChanged method to raise the event
-        // The calling member's name will be used as the parameter.
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -22,10 +20,24 @@ namespace ListExample.DataStructures
     }
 
     [Serializable]
-    public class Issue : INotifyPropertyChanged
+    public class Issue : INotifyPropertyChanged, IModel
     {
         public string _id { get; set; } = "";
-        public string name { get; set; } = "";
+
+        private string _name = "";
+        public string name
+        {
+            get
+            {
+                return this._name;
+            }
+            set
+            {
+                this._name = value;
+                NotifyPropertyChanged("name");
+            }
+        }
+
         public string status { get; set; } = "";
         public string owner { get; set; } = "";
         public Int64 created { get; set; } = 0;
@@ -35,7 +47,21 @@ namespace ListExample.DataStructures
         public string priority { get; set; } = "";
         public string desc { get; set; } = "";
         public string thumbnail { get; set; }
-        public BitmapImage thumbnailImage { get; set; }
+
+        private BitmapImage _thumbnailImage = null;
+
+        public BitmapImage thumbnailImage
+        {
+            get
+            {
+                return this._thumbnailImage;
+            }
+            set
+            {
+                this._thumbnailImage = value;
+                NotifyPropertyChanged("thumbnailImage");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

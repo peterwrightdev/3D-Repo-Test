@@ -1,5 +1,4 @@
-﻿using ListExample.Utility.Priorities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -15,19 +14,27 @@ namespace ListExample.Utility
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            // determine from values supplied if we are using an Issue's "priority" or a Risks "overall_level_of_risk"
+            object key = null;
+            if (values[0].GetType() == typeof(string))
+            {
+                key = values[0];
+            }
+            else if (values[1].GetType() == typeof(Int32))
+            {
+                key = values[1];
+            }
+
+            ColorMapping.Mapping.TryGetValue(key, out string color);
+
+            if (string.IsNullOrEmpty(color))
+            {
+                color = ColorMapping.Mapping["default"];
+            }
+
             // Converts from priority to specific color.
             // Find which "Priority" matches our string name and return it's colour.
-            var priorityType = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass && t.FullName.ToLower() == "listexample.utility.priorities." + ((string)values[0]).ToLower()).FirstOrDefault();
-
-            if (priorityType != null)
-            {
-                return new SolidColorBrush(((IPriority)Activator.CreateInstance(priorityType)).Colour);
-            }
-            else
-            {
-                // unknown priority. Use default colour.
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4e7496"));
-            }
+            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

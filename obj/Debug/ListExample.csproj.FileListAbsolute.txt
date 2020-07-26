@@ -56,12 +56,10 @@ C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\bin\Debug\ListExamp
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\bin\Debug\ListExample.exe
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\bin\Debug\ListExample.pdb
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\bin\Debug\LitJSON.dll
-C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\MainWindow.g.cs
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\App.g.cs
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExample_MarkupCompile.cache
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExample_MarkupCompile.lref
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\App.baml
-C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\MainWindow.baml
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExample.g.resources
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExample.Properties.Resources.resources
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExample.csproj.GenerateResource.cache
@@ -70,4 +68,5 @@ C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExamp
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExample.exe
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExample.pdb
 C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\ListExample.csprojAssemblyReference.cache
+C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\View\MainWindow.g.cs
+C:\Users\Peter.Wright\Downloads\C# Offsite Test\3D-Repo-Test\obj\Debug\View\MainWindow.baml
